@@ -11,7 +11,7 @@ const Navbar = (props: Props) => {
       <div className="navbar bg-base-100 justify-between mb-5">
         <div>
         <Drawer />
-        <a className="btn btn-ghost text-xl">ETERATION</a>
+        <a className="btn btn-ghost text-xl" href="/">ETERATION</a>
         </div>
 
         <div className="flex-none gap-2">
