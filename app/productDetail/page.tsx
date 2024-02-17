@@ -1,13 +1,20 @@
-import React from 'react'
+import React from "react";
+import ProductDetailCard from "../components/ProductDetailCard";
+import ProductPurchaseCountdownCard from "../components/checkoutCards/ProductPurchaseCountdownCard";
+import CheckoutCard from "../components/checkoutCards/CheckoutCard";
 
-type Props = {}
+type Props = {};
 
 const page = (props: Props) => {
   return (
-   <div>
-    productdetail sayfası
-   </div>
-  )
-}
+    <div className="flex flex-col lg:flex-row gap-3 lg:gap-12 justify-center items-start">
+     <ProductDetailCard/>
+     <div className="hidden lg:flex lg:flex-col gap-4">
+      <ProductPurchaseCountdownCard/>
+      <CheckoutCard/>
+    </div>
+    </div>
+  );
+};
 
-export default page
+export default page;
