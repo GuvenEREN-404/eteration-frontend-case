@@ -4,7 +4,9 @@ type Props = {}
 
 const page = (props: Props) => {
   return (
-    <div>productlist page</div>
+   <div>
+    productdetail sayfası
+   </div>
   )
 }
 
