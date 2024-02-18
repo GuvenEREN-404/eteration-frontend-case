@@ -1,26 +1,46 @@
 'use client'
+import { filterProduct } from '@/app/_redux/features/product-slice';
+import { RootState } from '@/app/_redux/store';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface BrandsCardProps {
     onSelectBrand: (brand: string[]) => void;
   }
   
   const BrandsCard: React.FC<BrandsCardProps> = ({ onSelectBrand }) => {
+    const filteredProduct:any = useSelector((state: RootState) => state.productReducer.filterProduct);
+    const allProducts:any = useSelector((state: RootState) => state.productReducer.allProducts);
+
+    const brands:string[] = useSelector((state: RootState) => state.productReducer.brands);
     const [searchText, setSearchText] = useState('');
     const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-    const brands = ['iPhone', 'Samsung', 'Xiaomi'];
+    const dispatch = useDispatch();
   
-    const filteredBrands = brands.filter(brand => brand.toLowerCase().includes(searchText.toLowerCase()));
-  
+    const filteredBrands = brands?.filter(brand => brand.toLowerCase().includes(searchText.toLowerCase()));
+
     const handleBrandToggle = (brand: string) => {
-      const updatedBrands:any = selectedBrands.includes(brand)
+      const updatedBrands = selectedBrands.includes(brand)
         ? selectedBrands.filter(selectedBrand => selectedBrand !== brand)
         : [...selectedBrands, brand];
-  
+    
       setSelectedBrands(updatedBrands);
       onSelectBrand(updatedBrands);
+    
+      if (filterProduct.length > 0) {
+        // Eğer selectedBrands boşsa ve filterProduct içinde filtrelenmiş ürünler varsa,
+        // tüm ürünleri kullanarak filtreleme yap
+        const filteredProducts = filteredProduct.filter(product => updatedBrands.includes(product.brand));
+        dispatch(filterProduct(filteredProducts))
+      } else {
+        // Diğer durumlarda, seçilen markalara göre filtreleme yap
+        const filteredProducts = allProducts.filter(product => updatedBrands.includes(product.brand));
+        dispatch(filterProduct(filteredProducts))
+        
+      }
     };
-  
+    
+    
     return (
       <div className="card w-72 bg-base-100 shadow-xl">
         <div className="card-body">

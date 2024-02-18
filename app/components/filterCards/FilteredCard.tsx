@@ -12,6 +12,7 @@ function FilteredCard({}: Props) {
   const handleBrandSelect = (brands: string[]) => {
     setSelectedBrands(brands);
   };
+
   return (
     <>
       <SortedCard />
