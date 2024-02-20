@@ -1,45 +1,16 @@
-import { filterProduct } from "@/app/_redux/features/product-slice";
-import { RootState } from "@/app/_redux/store";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  sortByDateNewToOld,
+  sortByDateOldToNew,
+  sortByPriceHighToLow,
+  sortByPriceLowToHigh,
+} from "@/app/_redux/features/product-slice";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 type Props = {};
 
 const FilterCard = (props: Props) => {
   const dispatch = useDispatch();
-  const allProducts: any = useSelector(
-    (state: RootState) => state.productReducer.allProducts
-  );
-
-  const handleSortByDateOldToNew = () => {
-    const sortedProducts: any = [...allProducts].sort(
-      //@ts-ignore
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    );
-    dispatch(filterProduct(sortedProducts));
-  };
-
-  const handleSortByDateNewToOld = () => {
-    const sortedProducts: any = [...allProducts].sort(
-       //@ts-ignore
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-    dispatch(filterProduct(sortedProducts));
-  };
-
-  const handleSortByPriceLowToHigh = () => {
-    const sortedProducts: any = [...allProducts].sort(
-      (a, b) => parseFloat(a.price) - parseFloat(b.price)
-    );
-    dispatch(filterProduct(sortedProducts));
-  };
-
-  const handleSortByPriceHighToLow = () => {
-    const sortedProducts: any = [...allProducts].sort(
-      (a, b) => parseFloat(b.price) - parseFloat(a.price)
-    );
-    dispatch(filterProduct(sortedProducts));
-  };
 
   return (
     <div className="card w-72 bg-base-100 shadow-xl">
@@ -49,7 +20,7 @@ const FilterCard = (props: Props) => {
           <label className="label cursor-pointer">
             <input
               onClick={() => {
-                handleSortByDateOldToNew();
+                dispatch(sortByDateOldToNew());
               }}
               type="radio"
               name="radio-10"
@@ -60,7 +31,7 @@ const FilterCard = (props: Props) => {
           <label className="label cursor-pointer">
             <input
               onClick={() => {
-                handleSortByDateNewToOld();
+                dispatch(sortByDateNewToOld());
               }}
               type="radio"
               name="radio-10"
@@ -71,7 +42,7 @@ const FilterCard = (props: Props) => {
           <label className="label cursor-pointer">
             <input
               onClick={() => {
-                handleSortByPriceHighToLow();
+                dispatch(sortByPriceHighToLow());
               }}
               type="radio"
               name="radio-10"
@@ -82,7 +53,7 @@ const FilterCard = (props: Props) => {
           <label className="label cursor-pointer">
             <input
               onClick={() => {
-                handleSortByPriceLowToHigh();
+                dispatch(sortByPriceLowToHigh());
               }}
               type="radio"
               name="radio-10"
