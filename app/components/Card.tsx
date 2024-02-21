@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Product {
   id?: string;
@@ -18,12 +19,12 @@ const Card = (props: Props) => {
   const router = useRouter();
   const {id, brand, model, description, image, name, price} = props.product
   return (
-    <div
-      onClick={() => {
-        router.push("/productDetail");
-      }}
-      className="card w-70 bg-base-100 shadow-xl"
-    >
+    <div className="card w-70 bg-base-100 shadow-xl items-center">
+      <Link href={{
+        pathname:'/productDetail',
+        query:{image,name,price,description}
+      }}>
+   
       <figure>
         <img
           src={`${image}`}
@@ -33,9 +34,9 @@ const Card = (props: Props) => {
       <div className="card-body">
         <h2 className="card-title">{price}</h2>
         <p>{name}</p>
-
-        <button className="btn btn-primary">Add to Card</button>
       </div>
+      </Link>
+    <button onClick={()=>{console.log('selam gitme biryere')}} className="btn btn-primary mb-5">Add to Card</button>
     </div>
   );
 };
