@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Product {
   id: string;
@@ -14,6 +15,8 @@ interface ProductState {
   sortType: string;
   allProducts: Product[];
   filterProduct: Product[];
+  page:number;
+  per_page:number;
 }
 
 const initialState: ProductState = {
@@ -22,6 +25,8 @@ const initialState: ProductState = {
   sortType: "",
   allProducts: [],
   filterProduct: [],
+  page:1,
+  per_page:12,
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -112,9 +117,9 @@ const productSlice = createSlice({
     },
     filterBrandProduct: (state, action: PayloadAction<{ brand: string[] }>) => {
       const { brand } = action.payload;
+
       if (brand.length <= 0) {
         state.filterProduct = state.allProducts;
-        
       } else {
         // Markaya göre filtreleme işlemi
         const filteredBrandData = state.allProducts.filter((item) =>
@@ -129,6 +134,7 @@ const productSlice = createSlice({
       action: PayloadAction<{ model: string[]; brand: string[] }>
     ) => {
       const { model, brand } = action.payload;
+
       if (model.length <= 0) {
         const filteredBrandData = state.allProducts.filter((item) =>
           brand.includes(item.brand)
@@ -150,7 +156,18 @@ const productSlice = createSlice({
         state.filterProduct = intersection;
       }
     },
+    pagination: (state, action: PayloadAction<{ page:number}>) => {
+     
+      state.page=action.payload.page
+
+      const start = (Number(state.page) - 1) * Number(state.per_page);
+      const end = start + Number(state.per_page);
+      const entries = state.allProducts.slice(start, end);  
+
+      state.filterProduct = entries
+    }
   },
+ 
   extraReducers: (builder) => {
     builder.addCase(
       fetchProducts.fulfilled,
@@ -187,5 +204,6 @@ export const {
   sortByDateNewToOld,
   sortByPriceLowToHigh,
   sortByPriceHighToLow,
+  pagination
 } = productSlice.actions;
 export default productSlice.reducer;

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RootState } from "@/app/_redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { filterModelProduct } from "@/app/_redux/features/product-slice";
+import { useRouter } from "next/navigation";
 
 interface ModelCardProps {
   selectedBrands: string[];
@@ -9,6 +10,7 @@ interface ModelCardProps {
 
 const ModelCard: React.FC<ModelCardProps> = ({ selectedBrands }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const models: Record<string, string[]> = useSelector(
     (state: RootState) => state.productReducer.models
   );
@@ -16,17 +18,14 @@ const ModelCard: React.FC<ModelCardProps> = ({ selectedBrands }) => {
   const selectedModelsList = selectedBrands.flatMap(
     (brand: any) => models[brand] || []
   );
-  console.log("seçilen modeller", selectedBrands);
 
   const handleModelsToggle = (model: string) => {
+    router.push('/')
     const updatedModels = selectedModels.includes(model)
       ? selectedModels.filter((selectedModels) => selectedModels !== model)
       : [...selectedModels, model];
 
     setSelectedModels(updatedModels);
-
-    console.log("handleModelsToggle gelen", updatedModels);
-
     dispatch(filterModelProduct({model:updatedModels,brand:selectedBrands}))
   };
   return (
