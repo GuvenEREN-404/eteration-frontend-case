@@ -2,8 +2,6 @@
 
 import { FC } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { pagination } from "../_redux/features/product-slice";
 
 interface PaginationControlsProps {
   hasNextPage: boolean;

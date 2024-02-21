@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 interface Product {
   id: string;
+  name:string;
   brand: string;
   model: string;
   models: Record<string, string[]>;
@@ -15,8 +16,6 @@ interface ProductState {
   sortType: string;
   allProducts: Product[];
   filterProduct: Product[];
-  page:number;
-  per_page:number;
 }
 
 const initialState: ProductState = {
@@ -25,8 +24,6 @@ const initialState: ProductState = {
   sortType: "",
   allProducts: [],
   filterProduct: [],
-  page:1,
-  per_page:12,
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -156,15 +153,15 @@ const productSlice = createSlice({
         state.filterProduct = intersection;
       }
     },
-    pagination: (state, action: PayloadAction<{ page:number}>) => {
-     
-      state.page=action.payload.page
-
-      const start = (Number(state.page) - 1) * Number(state.per_page);
-      const end = start + Number(state.per_page);
-      const entries = state.allProducts.slice(start, end);  
-
-      state.filterProduct = entries
+    search:(state, action: PayloadAction<{ query: string }>) => {
+      const {query} = action.payload
+      if(query ==''){
+        state.filterProduct = state.allProducts
+      }else {
+        const filteredQueryData = state.allProducts.filter(product => product.name.toLowerCase().includes(query.toLowerCase()));
+        state.filterProduct = filteredQueryData
+      }
+      
     }
   },
  
@@ -204,6 +201,6 @@ export const {
   sortByDateNewToOld,
   sortByPriceLowToHigh,
   sortByPriceHighToLow,
-  pagination
+  search
 } = productSlice.actions;
 export default productSlice.reducer;

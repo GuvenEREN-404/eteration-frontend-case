@@ -1,11 +1,23 @@
-import React, { ReactNode } from "react";
+'use client'
+import React, { ReactNode, useState } from "react";
 import Drawer from "./Drawer";
+import { useDispatch } from "react-redux";
+import { search } from "@/app/_redux/features/product-slice";
+import { useRouter } from "next/navigation";
+
 
 type Props = {
   children: ReactNode;
 };
 
 const Navbar = (props: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleSearch = (e:any) => {
+    router.push('/')
+    dispatch(search({query:e.target.value.trim()}))
+  };
   return (
     <>
       <div className="navbar bg-base-100 justify-between mb-5">
@@ -16,11 +28,13 @@ const Navbar = (props: Props) => {
 
         <div className="flex-none gap-2">
           <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-32 md:w-auto lg:w-[700px]"
-            />
+          <input
+        type="text"
+        placeholder="Search"
+        className="input input-bordered w-32 md:w-auto lg:w-[700px]"
+        onChange={(e)=>handleSearch(e)}
+      />
+      
           </div>
         </div>
         <div className="flex gap-2">

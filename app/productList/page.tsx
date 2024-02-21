@@ -17,7 +17,7 @@ const ProductList = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-3 lg:gap-12 justify-center items-start">
+    <div className="flex flex-col lg:flex-row gap-3 lg:gap-12 justify-between items-start">
       <div className="hidden lg:flex lg:flex-col gap-4">
         <FilteredCard />
       </div>
