@@ -1,8 +1,17 @@
+import {
+  sortByDateNewToOld,
+  sortByDateOldToNew,
+  sortByPriceHighToLow,
+  sortByPriceLowToHigh,
+} from "@/app/_redux/features/product-slice";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 type Props = {};
 
 const FilterCard = (props: Props) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="card w-72 bg-base-100 shadow-xl">
       <div className="card-body">
@@ -10,6 +19,9 @@ const FilterCard = (props: Props) => {
         <div className="form-control">
           <label className="label cursor-pointer">
             <input
+              onClick={() => {
+                dispatch(sortByDateOldToNew());
+              }}
               type="radio"
               name="radio-10"
               className="radio checked:bg-[#2A59FE]"
@@ -18,6 +30,9 @@ const FilterCard = (props: Props) => {
           </label>
           <label className="label cursor-pointer">
             <input
+              onClick={() => {
+                dispatch(sortByDateNewToOld());
+              }}
               type="radio"
               name="radio-10"
               className="radio checked:bg-[#2A59FE]"
@@ -26,6 +41,9 @@ const FilterCard = (props: Props) => {
           </label>
           <label className="label cursor-pointer">
             <input
+              onClick={() => {
+                dispatch(sortByPriceHighToLow());
+              }}
               type="radio"
               name="radio-10"
               className="radio checked:bg-[#2A59FE]"
@@ -34,6 +52,9 @@ const FilterCard = (props: Props) => {
           </label>
           <label className="label cursor-pointer">
             <input
+              onClick={() => {
+                dispatch(sortByPriceLowToHigh());
+              }}
               type="radio"
               name="radio-10"
               className="radio checked:bg-[#2A59FE]"
