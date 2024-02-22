@@ -1,6 +1,6 @@
+import { END_POINTS } from "@/app/libs/end-points";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 interface Product {
   id: string;
@@ -31,7 +31,7 @@ export const fetchProducts = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get(
-        "https://5fc9346b2af77700165ae514.mockapi.io/products"
+        END_POINTS.PRODUCT.GET_PRODUCTS
       );
       console.log("data", response);
       return response.data;

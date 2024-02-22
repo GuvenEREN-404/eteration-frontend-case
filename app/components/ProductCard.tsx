@@ -32,9 +32,9 @@ const ProductCard = (props: Props) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {entries.length > 0 ?
-      entries.map((item:Product,index:number)=>{
+      entries.map((item,index)=>{
         return(
-          <Card product={item}/>
+          <Card key={index} product={item}/>
         )
       }): 
       <h2 className='w-70'>product card not found</h2>

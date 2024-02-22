@@ -1,9 +1,10 @@
 'use client'
 import React, { ReactNode, useState } from "react";
 import Drawer from "./Drawer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { search } from "@/app/_redux/features/product-slice";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/app/_redux/store";
 
 
 type Props = {
@@ -13,7 +14,9 @@ type Props = {
 const Navbar = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const totalPrice = useSelector(
+    (state: RootState) => state.basketSlice.totalPrice
+  );
   const handleSearch = (e:any) => {
     router.push('/')
     dispatch(search({query:e.target.value.trim()}))
@@ -53,7 +56,7 @@ const Navbar = (props: Props) => {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            <p>177.000</p>
+            <p>{totalPrice.toLocaleString()}</p>
           </div>
           <div className="flex gap-1">
             <svg

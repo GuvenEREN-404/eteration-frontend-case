@@ -6,14 +6,15 @@ import FilteredCard from "../components/filterCards/FilteredCard";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../_redux/features/product-slice";
 import ProductCard from "../components/ProductCard";
+import { setBasketAndTotalPrice } from "../_redux/features/basket-slice";
 
 const ProductList = () => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     // Sayfa yüklendiğinde veya gerekli bir durum değiştiğinde ürünleri çek
     //@ts-ignore
     dispatch(fetchProducts());
+    dispatch(setBasketAndTotalPrice())
   }, [dispatch]);
 
   return (
